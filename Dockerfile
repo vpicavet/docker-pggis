@@ -57,7 +57,7 @@ RUN apt-get remove -y --purge autotools-dev libgeos-dev libgif-dev libgl1-mesa-d
 RUN apt-get remove -y --purge autoconf build-essential cmake docbook-mathml docbook-xsl libboost-dev libboost-filesystem-dev libboost-timer-dev libcgal-dev libcunit1-dev libgdal-dev libgeos++-dev libgeotiff-dev libgmp-dev libjson0-dev libjson-c-dev liblas-dev libmpfr-dev libopenscenegraph-dev libpq-dev libproj-dev libxml2-dev postgresql-server-dev-9.3 xsltproc git build-essential wget 
 
 # additional compilation packages
-RUN apt-get remove -y --purge automake m4 make odbcinst odbcinst1debian2 openssl pkg-config poppler-data rsync samba-libs sgml-base sgml-data w3-dtd-mathml
+RUN apt-get remove -y --purge automake m4 make
 
 RUN apt-get clean
 
