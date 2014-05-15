@@ -31,6 +31,15 @@ RUN cd postgis-2.1.2 && make && make install
 # cleanup
 RUN rm -Rf postgis-2.1.2.tar.gz postgis-2.1.2
 
+# Download and compile pgrouting
+RUN git clone https://github.com/pgRouting/pgrouting.git &&\
+    cd pgrouting &&\
+    mkdir build && cd build &&\
+    cmake -DWITH_DOC=OFF -DWITH_DD=ON .. &&\
+    make && make install
+# cleanup
+RUN rm -Rf pgrouting
+
 # Compile PDAL
 RUN git clone https://github.com/PDAL/PDAL.git pdal
 RUN mkdir PDAL-build
@@ -78,7 +87,8 @@ RUN    /etc/init.d/postgresql start &&\
 # create all needed GIS extensions in this database
 RUN /etc/init.d/postgresql start &&\
     psql --command "CREATE extension postgis; create extension postgis_topology;" pggis &&\
-    psql --command "CREATE extension pointcloud; create extension pointcloud_postgis;" pggis
+    psql --command "CREATE extension pgrouting;;" pggis &&\
+    psql --command "CREATE extension pointcloud; create extension pointcloud_postgis;" pggis 
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible. 
