@@ -8,11 +8,12 @@ This Docker image is a container with all latest PostgreSQL extensions needed to
 It is based on Ubuntu 14.04 and features :
 
 * PostgreSQL 9.3 (from package)
-* PDAL (git master)
-* PostgreSQL PointCloud extension (git master)
 * PostGIS 2.1.2 (compiled from release sources) with SFCGAL support (git master)
+* PgRouting (git master)
+* PostgreSQL PointCloud extension (git master)
+* PDAL (git master)
 
-It creates a pggis database with a pggis superuser, with postgis and pointcloud extensions activated. It is therefore ready to eat data, and you can enjoy 2D vector and raster features, 3D support and functions, large point data volumes and analysis, topology support and all PostgreSQL native features.
+It creates a pggis database with a pggis superuser, with postgis, pgrouting and pointcloud extensions activated. It is therefore ready to eat data, and you can enjoy 2D vector and raster features, 3D support and functions, large point data volumes and analysis, topology support and all PostgreSQL native features.
 
 Build and/or run the container
 ------------------------------
