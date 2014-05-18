@@ -24,6 +24,8 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 CMD ["/sbin/my_init"]
 
 # packages needed for compilation
+RUN apt-get update
+
 RUN apt-get install -y autoconf build-essential cmake docbook-mathml docbook-xsl libboost-dev libboost-filesystem-dev libboost-timer-dev libcgal-dev libcunit1-dev libgdal-dev libgeos++-dev libgeotiff-dev libgmp-dev libjson0-dev libjson-c-dev liblas-dev libmpfr-dev libopenscenegraph-dev libpq-dev libproj-dev libxml2-dev postgresql-server-dev-9.3 xsltproc git build-essential wget 
 
 # application packages
