@@ -9,7 +9,7 @@
 #
 # Version 1.1
 
-FROM phusion/baseimage:14.04
+FROM phusion/baseimage:0.9.10
 MAINTAINER Vincent Picavet, vincent.picavet@oslandia.com
 
 # Set correct environment variables.
@@ -31,7 +31,7 @@ RUN apt-get install -y postgresql
 
 # download and compile SFCGAL
 RUN git clone https://github.com/Oslandia/SFCGAL.git
-RUN cd SFCGAL && cmake . && make && make install
+RUN cd SFCGAL && cmake . && make -j3 && make install
 # cleanup
 RUN rm -Rf SFCGAL
 
@@ -39,7 +39,7 @@ RUN rm -Rf SFCGAL
 RUN wget http://download.osgeo.org/postgis/source/postgis-2.1.2.tar.gz
 RUN tar -xzf postgis-2.1.2.tar.gz
 RUN cd postgis-2.1.2 && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config
-RUN cd postgis-2.1.2 && make && make install
+RUN cd postgis-2.1.2 && make -j3 && make install
 # cleanup
 RUN rm -Rf postgis-2.1.2.tar.gz postgis-2.1.2
 
@@ -48,7 +48,7 @@ RUN git clone https://github.com/pgRouting/pgrouting.git &&\
     cd pgrouting &&\
     mkdir build && cd build &&\
     cmake -DWITH_DOC=OFF -DWITH_DD=ON .. &&\
-    make && make install
+    make -j3 && make install
 # cleanup
 RUN rm -Rf pgrouting
 
@@ -56,13 +56,13 @@ RUN rm -Rf pgrouting
 RUN git clone https://github.com/PDAL/PDAL.git pdal
 RUN mkdir PDAL-build
 RUN cd PDAL-build && cmake ../pdal
-RUN cd PDAL-build && make && make install
+RUN cd PDAL-build && make -j3 && make install
 # cleanup
 RUN rm -Rf pdal
 
 # Compile PointCloud
 RUN git clone https://github.com/pramsey/pointcloud.git
-RUN cd pointcloud && ./autogen.sh && ./configure && make && make install
+RUN cd pointcloud && ./autogen.sh && ./configure && make -j3 && make install
 # cleanup
 RUN rm -Rf pointcloud
 
