@@ -3,13 +3,25 @@
 # This image includes the following tools
 # - PostgreSQL 9.3
 # - PostGIS 2.1.2 with raster, topology and sfcgal support
+# - PgRouting
 # - PDAL
 # - PostgreSQL PointCloud
 #
-# Version 1.0
+# Version 1.1
 
-FROM ubuntu
+FROM phusion/baseimage:14.04
 MAINTAINER Vincent Picavet, vincent.picavet@oslandia.com
+
+# Set correct environment variables.
+ENV HOME /root
+
+# Regenerate SSH host keys. baseimage-docker does not contain any, so you
+# have to do that yourself. You may also comment out this instruction; the
+# init system will auto-generate one during boot.
+RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
 
 # packages needed for compilation
 RUN apt-get install -y autoconf build-essential cmake docbook-mathml docbook-xsl libboost-dev libboost-filesystem-dev libboost-timer-dev libcgal-dev libcunit1-dev libgdal-dev libgeos++-dev libgeotiff-dev libgmp-dev libjson0-dev libjson-c-dev liblas-dev libmpfr-dev libopenscenegraph-dev libpq-dev libproj-dev libxml2-dev postgresql-server-dev-9.3 xsltproc git build-essential wget 
@@ -68,9 +80,11 @@ RUN apt-get remove -y --purge autoconf build-essential cmake docbook-mathml docb
 # additional compilation packages
 RUN apt-get remove -y --purge automake m4 make
 
-RUN apt-get clean
-
 # ---------- SETUP --------------
+
+# add a baseimage PostgreSQL init script
+RUN mkdir /etc/service/postgresql
+ADD postgresql.sh /etc/service/postgresql/run
 
 # Run the rest of the commands as the ``postgres`` user created by the ``postgres-9.3`` package when it was ``apt-get installed``
 USER postgres
@@ -104,4 +118,11 @@ EXPOSE 5432
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 # Set the default command to run when starting the container
-CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf"]
+# We use baseimage starter
+# CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf"]
+
+# ---------- Final cleanup --------------
+#
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
