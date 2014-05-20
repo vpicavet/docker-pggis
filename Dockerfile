@@ -60,7 +60,7 @@ RUN mkdir PDAL-build
 RUN cd PDAL-build && cmake ../pdal
 RUN cd PDAL-build && make -j3 && make install
 # cleanup
-RUN rm -Rf pdal
+RUN rm -Rf pdal && rm -Rf PDAL-build
 
 # Compile PointCloud
 RUN git clone https://github.com/pramsey/pointcloud.git
