@@ -107,7 +107,8 @@ EXPOSE 5432
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 # add database setup upon image start
-ADD .pgpass /root/
+ADD pgpass /root/.pgpass
+RUN chmod 700 /root/.pgpass
 RUN mkdir -p /etc/my_init.d
 ADD init_db_script.sh /etc/my_init.d/init_db_script.sh
 ADD init_db.sh /root/init_db.sh
