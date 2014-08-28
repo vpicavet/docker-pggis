@@ -7,7 +7,7 @@
 # - PDAL
 # - PostgreSQL PointCloud
 #
-# Version 1.3
+# Version 1.4
 
 FROM phusion/baseimage:0.9.10
 MAINTAINER Vincent Picavet, vincent.picavet@oslandia.com
@@ -22,7 +22,6 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
-
 
 RUN apt-get update && apt-get install -y wget ca-certificates
 
@@ -94,24 +93,6 @@ RUN apt-get remove -y --purge automake m4 make
 RUN mkdir /etc/service/postgresql
 ADD postgresql.sh /etc/service/postgresql/run
 
-# Run the rest of the commands as the ``postgres`` user created by the ``postgres-9.3`` package when it was ``apt-get installed``
-USER postgres
-
-
-# Create a PostgreSQL role named ``pggis`` with ``pggis`` as the password and
-# then create a database `pggis` owned by the ``pggis`` role.
-# Note: here we use ``&&\`` to run commands one after the other - the ``\``
-#       allows the RUN command to span multiple lines.
-RUN    /etc/init.d/postgresql start &&\
-    psql --command "CREATE USER pggis WITH SUPERUSER PASSWORD 'pggis';" &&\
-    createdb -T template0 -E UTF8 -O pggis pggis
-
-# create all needed GIS extensions in this database
-RUN /etc/init.d/postgresql start &&\
-    psql --command "CREATE extension postgis; create extension postgis_topology;" pggis &&\
-    psql --command "CREATE extension pgrouting;" pggis &&\
-    psql --command "CREATE extension pointcloud; create extension pointcloud_postgis;" pggis 
-
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible. 
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.4/main/pg_hba.conf
@@ -125,13 +106,15 @@ EXPOSE 5432
 # Add VOLUMEs to allow backup of config, logs and databases
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
-# Set the default command to run when starting the container
-# We use baseimage starter
-# CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf"]
+# add database setup upon image start
+ADD pgpass /root/.pgpass
+RUN chmod 700 /root/.pgpass
+RUN mkdir -p /etc/my_init.d
+ADD init_db_script.sh /etc/my_init.d/init_db_script.sh
+ADD init_db.sh /root/init_db.sh
 
 # ---------- Final cleanup --------------
 #
 # Clean up APT when done.
-USER root
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
