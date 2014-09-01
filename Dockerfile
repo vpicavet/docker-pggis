@@ -23,6 +23,7 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
+
 RUN apt-get update && apt-get install -y wget ca-certificates
 
 # Use APT postgresql repositories for 9.4 version
@@ -104,7 +105,7 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf
 EXPOSE 5432
 
 # Add VOLUMEs to allow backup of config, logs and databases
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+VOLUME  ["/data", "/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 # add database setup upon image start
 ADD pgpass /root/.pgpass
