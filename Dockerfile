@@ -7,7 +7,7 @@
 # - PDAL
 # - PostgreSQL PointCloud
 #
-# Version 1.4
+# Version 1.5
 
 FROM phusion/baseimage:0.9.10
 MAINTAINER Vincent Picavet, vincent.picavet@oslandia.com
