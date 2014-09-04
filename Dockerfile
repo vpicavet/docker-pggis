@@ -4,7 +4,7 @@
 # - PostgreSQL 9.4
 # - PostGIS 2.1.3 with raster, topology and sfcgal support
 # - PgRouting
-# - PDAL
+# - PDAL 0.9.8
 # - PostgreSQL PointCloud
 #
 # Version 1.5
@@ -61,7 +61,9 @@ RUN git clone https://github.com/pgRouting/pgrouting.git &&\
 RUN rm -Rf pgrouting
 
 # Compile PDAL
-RUN git clone https://github.com/PDAL/PDAL.git pdal
+RUN git clone https://github.com/PDAL/PDAL.git pdal && \
+    cd pdal && \
+    git checkout tags/0.9.8
 RUN mkdir PDAL-build
 RUN cd PDAL-build && cmake ../pdal
 RUN cd PDAL-build && make -j3 && make install
