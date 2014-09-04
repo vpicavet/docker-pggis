@@ -64,9 +64,11 @@ RUN rm -Rf pgrouting
 RUN git clone https://github.com/PDAL/PDAL.git pdal && \
     cd pdal && \
     git checkout tags/0.9.8
-RUN mkdir PDAL-build
-RUN cd PDAL-build && cmake ../pdal
-RUN cd PDAL-build && make -j3 && make install
+RUN mkdir PDAL-build && \
+    cd PDAL-build && \
+    cmake ../pdal && \
+    make -j3 && \
+    make install
 # cleanup
 RUN rm -Rf pdal && rm -Rf PDAL-build
 
