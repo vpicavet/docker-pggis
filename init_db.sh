@@ -62,7 +62,7 @@ echo "Creating a new empty database..."
 
 # activate all needed extension in pggis database
 /usr/bin/psql -U pggis -h localhost -w -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology; CREATE EXTENSION pgrouting; CREATE EXTENSION pointcloud; CREATE EXTENSION pointcloud_postgis;" pggis
-/usr/bin/psql -U pggis -h localhost -w -f /usr/share/postgresql/9.4/contrib/postgis-2.1/sfcgal.sql -d $DBNAME
+/usr/bin/psql -U pggis -h localhost -w -f /usr/share/postgresql/9.4/contrib/postgis-2.1/sfcgal.sql -d pggis
 
 echo "Database initialized. Connect from host with :"
 echo "psql -h localhost -p <PORT> -U pggis -W pggis"
