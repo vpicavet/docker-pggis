@@ -4,10 +4,10 @@
 # - PostgreSQL 9.4
 # - PostGIS 2.1.3 with raster, topology and sfcgal support
 # - PgRouting
-# - PDAL
+# - PDAL 0.9.8
 # - PostgreSQL PointCloud
 #
-# Version 1.4
+# Version 1.5
 
 FROM phusion/baseimage:0.9.10
 MAINTAINER Vincent Picavet, vincent.picavet@oslandia.com
@@ -22,6 +22,7 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
+
 
 RUN apt-get update && apt-get install -y wget ca-certificates
 
@@ -60,10 +61,14 @@ RUN git clone https://github.com/pgRouting/pgrouting.git &&\
 RUN rm -Rf pgrouting
 
 # Compile PDAL
-RUN git clone https://github.com/PDAL/PDAL.git pdal
-RUN mkdir PDAL-build
-RUN cd PDAL-build && cmake ../pdal
-RUN cd PDAL-build && make && make install
+RUN git clone https://github.com/PDAL/PDAL.git pdal && \
+    cd pdal && \
+    git checkout tags/0.9.8
+RUN mkdir PDAL-build && \
+    cd PDAL-build && \
+    cmake ../pdal && \
+    make && \
+    make install
 # cleanup
 RUN rm -Rf pdal && rm -Rf PDAL-build
 
@@ -104,7 +109,7 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf
 EXPOSE 5432
 
 # Add VOLUMEs to allow backup of config, logs and databases
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+VOLUME  ["/data", "/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 # add database setup upon image start
 ADD pgpass /root/.pgpass

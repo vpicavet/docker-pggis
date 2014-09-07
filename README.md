@@ -30,6 +30,8 @@ sudo docker.io run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
 Connect to the database
 -----------------------
 
+When you run the image to create a new container, a database is automatically created on startup, with all extensions activated. the database is named *pggis* and belongs to the *pggis* user, with *pggis* as a password.
+
 Assuming you have the postgresql-client installed, you can use the host-mapped port to test as well. You need to use docker ps to find out what local host port the container is mapped to first:
 
 ```sh
@@ -39,7 +41,33 @@ CONTAINER ID        IMAGE                   COMMAND                CREATED      
 $ psql -h localhost -p 49154 -d pggis -U pggis --password
 ```
 
-If you want to use this repository to build or modify the image, continue reading.
+Automatically restore data
+--------------------------
+
+When the container runs, it first check its */data/restore* path for *sql* files and *backup* files.
+
+If there is any backup file present, it will create a new database (named as the file basename), activate all extensions, and restore the backup database.
+
+If there is any SQL file present, it will similarly create a new database, activate extensions, and load the SQL file into the created database.
+
+To enable this, you have to map the exposed */data* volume to a host directory when running the image. You can do so using the *-v* option of *docker run*. This host directory should then have a *restore* subdirectory with the backups you want to restore.
+
+Example follows, restoring two backups, one in custom format, another in SQL.
+
+```sh
+$ find /home/user/mydata/
+/home/user/mydata/
+/home/user/mydata/restore
+/home/user/mydata/restore/restore_test.backup
+/home/user/mydata/restore/restore_test2.sql
+/home/user/mydata/otherstuff
+...
+
+$ docker run --rm -P --name pggis_test -v /home/user/mydata:/data oslandia/pggis /sbin/my_init
+
+```
+
+Now if you want to use this repository to build or modify the image, continue reading.
 
 Build and/or run the container
 ------------------------------
