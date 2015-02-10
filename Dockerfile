@@ -4,10 +4,10 @@
 # - PostgreSQL 9.4
 # - PostGIS 2.1.5 with raster, topology and sfcgal support
 # - PgRouting
-# - PDAL 0.9.8
+# - PDAL master
 # - PostgreSQL PointCloud
 #
-# Version 1.5
+# Version 1.6
 
 FROM phusion/baseimage
 MAINTAINER Vincent Picavet, vincent.picavet@oslandia.com
@@ -32,7 +32,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main 9.4" > /
 # packages needed for compilation
 RUN apt-get update
 
-RUN apt-get install -y autoconf build-essential cmake docbook-mathml docbook-xsl libboost-dev libboost-filesystem-dev libboost-timer-dev libcgal-dev libcunit1-dev libgdal-dev libgeos++-dev libgeotiff-dev libgmp-dev libjson0-dev libjson-c-dev liblas-dev libmpfr-dev libopenscenegraph-dev libpq-dev libproj-dev libxml2-dev postgresql-server-dev-9.4 xsltproc git build-essential wget 
+RUN apt-get install -y autoconf build-essential cmake docbook-mathml docbook-xsl libboost-dev libboost-filesystem-dev libboost-system-dev libboost-iostreams-dev libboost-program-options-dev libboost-timer-dev libcgal-dev libcunit1-dev libgdal-dev libgeos++-dev libgeotiff-dev libgmp-dev libjson0-dev libjson-c-dev liblas-dev libmpfr-dev libopenscenegraph-dev libpq-dev libproj-dev libxml2-dev postgresql-server-dev-9.4 xsltproc git build-essential wget 
 
 # application packages
 RUN apt-get install -y postgresql-9.4 
@@ -61,9 +61,7 @@ RUN git clone https://github.com/pgRouting/pgrouting.git &&\
 RUN rm -Rf pgrouting
 
 # Compile PDAL
-RUN git clone https://github.com/PDAL/PDAL.git pdal && \
-    cd pdal && \
-    git checkout tags/0.9.8
+RUN git clone https://github.com/PDAL/PDAL.git pdal
 RUN mkdir PDAL-build && \
     cd PDAL-build && \
     cmake ../pdal && \
