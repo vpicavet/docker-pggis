@@ -9,7 +9,7 @@
 #
 # Version 1.5
 
-FROM phusion/baseimage:0.9.10
+FROM phusion/baseimage
 MAINTAINER Vincent Picavet, vincent.picavet@oslandia.com
 
 # Set correct environment variables.
