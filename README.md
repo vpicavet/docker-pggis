@@ -8,7 +8,7 @@ This Docker image is a container with all latest PostgreSQL extensions needed to
 It is based on Ubuntu 14.04 and features :
 
 * PostgreSQL 9.4 (from PGDG packages)
-* PostGIS 2.1.3 (compiled from release sources) with SFCGAL support (git master)
+* PostGIS 2.1.5 (compiled from release sources) with SFCGAL support (git master)
 * PgRouting (git master)
 * PostgreSQL PointCloud extension (git master)
 * PDAL (git master)
