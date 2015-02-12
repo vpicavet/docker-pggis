@@ -113,7 +113,7 @@ sudo docker.io build -t oslandia/pggis .
 sudo docker.io run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
 ```
 
-* Launch batch in the running container, and execute the following lines, PostgreSQL will start
+* Launch bash in the running container, and execute the following lines, PostgreSQL will start
 
 ```bash
 sudo docker exec -ti pggis_test bash
