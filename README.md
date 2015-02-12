@@ -27,6 +27,7 @@ Just run the container and it will download the image if you do not already have
 sudo docker.io run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
 ```
 
+If PostgreSQL server does not start and you see a lot of dots on the screen, see Known Problems below.
 Connect to the database
 -----------------------
 
@@ -93,6 +94,31 @@ Do not hesitate to fork, send pull requests or fill issues on GitHub to enhance 
 
 Contact Oslandia at infos+pggis@oslandia.com for any question or support.
 
+Known problems
+==============
+
+When using Docker with AUFS, you can hit bug #783, and PostgreSQL server cannot be started due to permission problems. You will see dots appearing on the screen forever. There are at least three alternatives to workaround this bug :
+
+* Wait until the AUFS fix is released and taken into account in Docker ( not released yet as of feb. 2015 )
+
+* Remove containers and images related to this project and rebuild the image from scratch :
+
+```bash
+# WARNING : These lines will stop and delete all your containers and images
+# Be more fine-grained if you have running other containers you want to keep !
+sudo docker stop $(docker ps -a -q)
+sudo docker rm $(docker ps -a -q)
+sudo docker rmi $(docker images -q)
+sudo docker.io build -t oslandia/pggis .
+sudo docker.io run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
+```
+
+* Launch batch in the running container, and execute the following lines, PostgreSQL will start
+
+```bash
+sudo docker exec -ti pggis_test bash
+mkdir /etc/ssl/private-copy; mv /etc/ssl/private/* /etc/ssl/private-copy/; rm -r /etc/ssl/private; mv /etc/ssl/private-copy /etc/ssl/private; chmod -R 0700 /etc/ssl/private; chown -R postgres /etc/ssl/private
+```
 
 References
 ==========
