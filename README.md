@@ -7,24 +7,26 @@ Presentation
 This Docker image is a container with all latest PostgreSQL extensions needed to do serious GIS work.
 It is based on Ubuntu 14.04 and features :
 
-* PostgreSQL 9.4 (from PGDG packages)
-* PostGIS 2.1.5 (compiled from release sources) with SFCGAL support (git master)
+* PostgreSQL 9.5 (from PGDG packages)
+* PostGIS 2.1.8 (compiled from release sources) with SFCGAL support (git master)
 * PgRouting (git master)
 * PostgreSQL PointCloud extension (git master)
 * PDAL (git master)
 
 It creates a pggis database with a pggis superuser (password pggis), with postgis, pgrouting and pointcloud extensions activated. It is therefore ready to eat data, and you can enjoy 2D vector and raster features, 3D support and functions, large point data volumes and analysis, topology support and all PostgreSQL native features.
 
+This Docker is aimed at tests and development. Do not use it for production purposes. It lacks security and is not micro-service oriented as should a Docker stack be. Use at your own risk. You have been warned.
+
 Just get me started !
 ---------------------
 
-Make sure you have docker installed. On Ubuntu 14.04, Docker is named *docker.io*, replace the name by *docker* if you use another release.
+Make sure you have docker installed. On Ubuntu 14.04, Docker is named *docker.io*, replace the *docker* by *docker.io* in the following if needed.
 
-If you just want to run a container with this image, you do not need this repository as the image is available on docker.io as a Trusted Build.
+If you just want to run a container with this image, you do not need this repository as the image is available on docker hub as a Trusted Build.
 Just run the container and it will download the image if you do not already have it locally :
 
 ```sh
-sudo docker.io run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
+sudo docker run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
 ```
 
 If PostgreSQL server does not start and you see a lot of dots on the screen, see Known Problems below.
@@ -36,7 +38,7 @@ When you run the image to create a new container, a database is automatically cr
 Assuming you have the postgresql-client installed, you can use the host-mapped port to test as well. You need to use docker ps to find out what local host port the container is mapped to first:
 
 ```sh
-$ sudo docker.io ps
+$ sudo docker ps
 CONTAINER ID        IMAGE                   COMMAND                CREATED             STATUS              PORTS                     NAMES
 75fec271dc5e        oslandia/pggis:latest   /usr/lib/postgresql/   51 seconds ago      Up 50 seconds       0.0.0.0:49154->5432/tcp   pggis_test          
 $ psql -h localhost -p 49154 -d pggis -U pggis --password
@@ -78,13 +80,13 @@ Git clone this repository to get the Dockerfile, and cd to it.
 You can build the image with :
 
 ```sh
-sudo docker.io build -t oslandia/pggis .
+sudo docker build -t oslandia/pggis .
 ```
 
 Run the container with :
 
 ```sh
-sudo docker.io run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
+sudo docker run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
 ```
 
 Support
@@ -106,11 +108,11 @@ When using Docker with AUFS, you can hit bug #783, and PostgreSQL server cannot 
 ```bash
 # WARNING : These lines will stop and delete all your containers and images
 # Be more fine-grained if you have running other containers you want to keep !
-sudo docker stop $(docker ps -a -q)
-sudo docker rm $(docker ps -a -q)
-sudo docker rmi $(docker images -q)
-sudo docker.io build -t oslandia/pggis .
-sudo docker.io run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
+sudo docker stop $(sudo docker ps -a -q)
+sudo docker rm $(sudo docker ps -a -q)
+sudo docker rmi $(sudo docker images -q)
+sudo docker build -t oslandia/pggis .
+sudo docker run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
 ```
 
 * Launch bash in the running container, and execute the following lines, PostgreSQL will start

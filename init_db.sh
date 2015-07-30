@@ -30,7 +30,7 @@ do
     echo "Creating a new database $DBNAME.."
     /usr/bin/psql -U pggis -h localhost -c "CREATE DATABASE $DBNAME WITH OWNER = pggis     ENCODING = 'UTF8'     TEMPLATE = template0    CONNECTION LIMIT = -1;" postgres
     /usr/bin/psql -U pggis -h localhost -w -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology; CREATE EXTENSION pgrouting; CREATE EXTENSION pointcloud; CREATE EXTENSION pointcloud_postgis; drop type if exists texture; create type texture as (url text,uv float[][]);" $DBNAME
-    /usr/bin/psql -U pggis -h localhost -w -f /usr/share/postgresql/9.4/contrib/postgis-2.1/sfcgal.sql -d $DBNAME
+    /usr/bin/psql -U pggis -h localhost -w -f /usr/share/postgresql/9.5/contrib/postgis-2.1/sfcgal.sql -d $DBNAME
 
     echo "Restoring database $DBNAME.."
     /usr/bin/pg_restore -U pggis -h localhost -d $DBNAME -w "$f"
@@ -49,7 +49,7 @@ do
     echo "Creating a new database $DBNAME.."
     /usr/bin/psql -U pggis -h localhost -c "CREATE DATABASE $DBNAME WITH OWNER = pggis     ENCODING = 'UTF8'     TEMPLATE = template0    CONNECTION LIMIT = -1;" postgres
     /usr/bin/psql -U pggis -h localhost -w -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology; CREATE EXTENSION pgrouting; CREATE EXTENSION pointcloud; CREATE EXTENSION pointcloud_postgis; drop type if exists texture; create type texture as (url text,uv float[][]);" $DBNAME
-    /usr/bin/psql -U pggis -h localhost -w -f /usr/share/postgresql/9.4/contrib/postgis-2.1/sfcgal.sql -d $DBNAME
+    /usr/bin/psql -U pggis -h localhost -w -f /usr/share/postgresql/9.5/contrib/postgis-2.1/sfcgal.sql -d $DBNAME
     echo "Restoring database $DBNAME.."
     /usr/bin/psql -U pggis -h localhost -d $DBNAME -w -f "$f"
     echo "Restore done."
@@ -63,7 +63,7 @@ echo "Creating a new empty database..."
 # activate all needed extension in pggis database
 /usr/bin/psql -U pggis -h localhost -w -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology; CREATE EXTENSION pgrouting; CREATE EXTENSION pointcloud; CREATE EXTENSION pointcloud_postgis; drop type if exists texture;
 create type texture as (url text,uv float[][]);" pggis
-/usr/bin/psql -U pggis -h localhost -w -f /usr/share/postgresql/9.4/contrib/postgis-2.1/sfcgal.sql -d pggis
+/usr/bin/psql -U pggis -h localhost -w -f /usr/share/postgresql/9.5/contrib/postgis-2.1/sfcgal.sql -d pggis
 
 echo "Database initialized. Connect from host with :"
 echo "psql -h localhost -p <PORT> -U pggis -W pggis"

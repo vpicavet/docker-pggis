@@ -1,7 +1,13 @@
 NEWS items
 ==========
 
-Release 1.5
+30/07/15 - Release 1.6
+* Upgrade Postgresql to 9.5
+* Upgrade PostGIS
+* Compile CGAL
+* Fix and upgrade Pointcloud for 9.5
+
+01/09/14 - Release 1.5
 * Add an autorestore feature
 * New NEWS file
 
