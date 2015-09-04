@@ -51,13 +51,12 @@ RUN cd SFCGAL && cmake . && make -j3 && make install
 # cleanup
 RUN rm -Rf SFCGAL
 
-# Download and compile PostGIS
-RUN wget http://download.osgeo.org/postgis/source/postgis-2.1.8.tar.gz
-RUN tar -xzf postgis-2.1.8.tar.gz
-RUN cd postgis-2.1.8 && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config
-RUN cd postgis-2.1.8 && make -j3 && make install
+# Download and compile PostGIS - with polyhedral geojson support
+RUN git clone https://github.com/Jeremy-Gaillard/postgis && cd postgis && git checkout polyhedral
+RUN cd postgis && ./autogen.sh && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config
+RUN cd postgis && make && make install
 # cleanup
-RUN rm -Rf postgis-2.1.8.tar.gz postgis-2.1.8
+RUN rm -Rf postgis
 
 # Download and compile pgrouting
 RUN git clone https://github.com/pgRouting/pgrouting.git &&\
