@@ -47,7 +47,7 @@ RUN wget https://gforge.inria.fr/frs/download.php/file/32994/CGAL-4.3.tar.gz &&\
 
 # download and compile SFCGAL
 RUN git clone https://github.com/Oslandia/SFCGAL.git
-RUN cd SFCGAL && cmake . && make && make install
+RUN cd SFCGAL && cmake -DSFCGAL_CHECK_VALIDITY=OFF . && make && make install
 # cleanup
 RUN rm -Rf SFCGAL
 
