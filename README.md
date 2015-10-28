@@ -8,10 +8,12 @@ This Docker image is a container with all latest PostgreSQL extensions needed to
 It is based on Ubuntu 14.04 and features :
 
 * PostgreSQL 9.5 (from PGDG packages)
-* PostGIS 2.1.8 (compiled from release sources) with SFCGAL support (git master)
+* PostGIS 2.2 (compiled from release sources) with SFCGAL support (git master) and GEOS 3.5
 * PgRouting (git master)
 * PostgreSQL PointCloud extension (git master)
+* OGR Foreign data wrapper (Git master)
 * PDAL (git master)
+
 
 It creates a pggis database with a pggis superuser (password pggis), with postgis, pgrouting and pointcloud extensions activated. It is therefore ready to eat data, and you can enjoy 2D vector and raster features, 3D support and functions, large point data volumes and analysis, topology support and all PostgreSQL native features.
 
@@ -20,7 +22,7 @@ This Docker is aimed at tests and development. Do not use it for production purp
 Just get me started !
 ---------------------
 
-Make sure you have docker installed. On Ubuntu 14.04, Docker is named *docker.io*, replace the *docker* by *docker.io* in the following if needed.
+Make sure you have docker installed. On Ubuntu 14.04, Docker is named *docker.io*, replace the *docker* by *docker.io* in the following if needed. It is advised to use the latest available Docker version from official packages. See : https://blog.docker.com/2015/07/new-apt-and-yum-repos/
 
 If you just want to run a container with this image, you do not need this repository as the image is available on docker hub as a Trusted Build.
 Just run the container and it will download the image if you do not already have it locally :
@@ -30,6 +32,7 @@ sudo docker run --rm -P --name pggis_test oslandia/pggis /sbin/my_init
 ```
 
 If PostgreSQL server does not start and you see a lot of dots on the screen, see Known Problems below.
+
 Connect to the database
 -----------------------
 

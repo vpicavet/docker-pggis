@@ -30,7 +30,6 @@ do
     echo "Creating a new database $DBNAME.."
     /usr/bin/psql -U pggis -h localhost -c "CREATE DATABASE $DBNAME WITH OWNER = pggis     ENCODING = 'UTF8'     TEMPLATE = template0    CONNECTION LIMIT = -1;" postgres
     /usr/bin/psql -U pggis -h localhost -w -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology; CREATE EXTENSION pgrouting; CREATE EXTENSION pointcloud; CREATE EXTENSION pointcloud_postgis; CREATE EXTENSION postgis_sfcgal; drop type if exists texture; create type texture as (url text,uv float[][]);" $DBNAME
-
     echo "Restoring database $DBNAME.."
     /usr/bin/pg_restore -U pggis -h localhost -d $DBNAME -w "$f"
     echo "Restore done."

@@ -2,12 +2,13 @@
 #
 # This image includes the following tools
 # - PostgreSQL 9.5
-# - PostGIS 2.1.8 with raster, topology and sfcgal support
+# - PostGIS 2.2 with raster, topology and sfcgal support
+# - OGR Foreign Data Wrapper
 # - PgRouting
 # - PDAL master
 # - PostgreSQL PointCloud version master
 #
-# Version 1.6
+# Version 1.7
 
 FROM phusion/baseimage
 MAINTAINER Vincent Picavet, vincent.picavet@oslandia.com
@@ -51,12 +52,19 @@ RUN cd SFCGAL && cmake -DSFCGAL_CHECK_VALIDITY=OFF . && make && make install
 # cleanup
 RUN rm -Rf SFCGAL
 
+# download and install GEOS 3.5
+RUN wget http://download.osgeo.org/geos/geos-3.5.0.tar.bz2 &&\
+    tar -xjf geos-3.5.0.tar.bz2 &&\
+    cd geos-3.5.0 &&\
+    ./configure && make && make install &&\
+    cd .. && rm -Rf geos-3.5.0 geos-3.5.0.tar.bz2
+
 # Download and compile PostGIS - with polyhedral geojson support
 RUN git clone https://github.com/Jeremy-Gaillard/postgis && cd postgis && git checkout polyhedral
-RUN cd postgis && ./autogen.sh && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config
+RUN cd postgis && ./autogen.sh && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config --with-geos=/usr/local/bin/geos-config
 RUN cd postgis && make && make install
 # cleanup
-RUN rm -Rf postgis
+RUN rm -Rf postgis-2.2.0.tar.gz postgis-2.2.0
 
 # Download and compile pgrouting
 RUN git clone https://github.com/pgRouting/pgrouting.git &&\
@@ -66,6 +74,12 @@ RUN git clone https://github.com/pgRouting/pgrouting.git &&\
     make && make install
 # cleanup
 RUN rm -Rf pgrouting
+
+# Download and compile ogr_fdw
+RUN git clone https://github.com/pramsey/pgsql-ogr-fdw.git &&\
+    cd pgsql-ogr-fdw &&\
+    make && make install &&\
+    cd .. && rm -Rf pgsql-ogr-fdw
 
 # Compile PDAL
 RUN git clone https://github.com/PDAL/PDAL.git pdal

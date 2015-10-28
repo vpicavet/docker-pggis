@@ -1,6 +1,11 @@
 NEWS items
 ==========
 
+28/10/15 - Release 1.7
+* Upgrade PostGIS to 2.2
+* Upgrade GEOS from source to 3.5
+* Add OGR FDW
+
 30/07/15 - Release 1.6
 * Upgrade Postgresql to 9.5
 * Upgrade PostGIS
