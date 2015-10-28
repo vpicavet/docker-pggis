@@ -51,10 +51,17 @@ RUN cd SFCGAL && cmake . && make -j3 && make install
 # cleanup
 RUN rm -Rf SFCGAL
 
+# download and install GEOS 3.5
+RUN wget http://download.osgeo.org/geos/geos-3.5.0.tar.bz2 &&\
+    tar -xjf geos-3.5.0.tar.bz2 &&\
+    cd geos-3.5.0 &&\
+    ./configure && make && make install &&\
+    cd .. && rm -Rf geos-3.5.0 geos-3.5.0.tar.bz2
+
 # Download and compile PostGIS
 RUN wget http://download.osgeo.org/postgis/source/postgis-2.2.0.tar.gz
 RUN tar -xzf postgis-2.2.0.tar.gz
-RUN cd postgis-2.2.0 && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config
+RUN cd postgis-2.2.0 && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config --with-geos=/usr/local/bin/geos-config
 RUN cd postgis-2.2.0 && make && make install
 # cleanup
 RUN rm -Rf postgis-2.2.0.tar.gz postgis-2.2.0
