@@ -75,6 +75,12 @@ RUN git clone https://github.com/pgRouting/pgrouting.git &&\
 # cleanup
 RUN rm -Rf pgrouting
 
+# Download and compile ogr_fdw
+RUN git clone https://github.com/pramsey/pgsql-ogr-fdw.git &&\
+    cd pgsql-ogr-fdw &&\
+    make && make install &&\
+    cd .. && rm -Rf pgsql-ogr-fdw
+
 # Compile PDAL
 RUN git clone https://github.com/PDAL/PDAL.git pdal
 RUN mkdir PDAL-build && \
