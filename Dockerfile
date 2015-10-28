@@ -3,6 +3,7 @@
 # This image includes the following tools
 # - PostgreSQL 9.5
 # - PostGIS 2.2 with raster, topology and sfcgal support
+# - OGR Foreign Data Wrapper
 # - PgRouting
 # - PDAL master
 # - PostgreSQL PointCloud version master
