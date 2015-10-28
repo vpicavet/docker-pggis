@@ -2,12 +2,12 @@
 #
 # This image includes the following tools
 # - PostgreSQL 9.5
-# - PostGIS 2.1.8 with raster, topology and sfcgal support
+# - PostGIS 2.2 with raster, topology and sfcgal support
 # - PgRouting
 # - PDAL master
 # - PostgreSQL PointCloud version master
 #
-# Version 1.6
+# Version 1.7
 
 FROM phusion/baseimage
 MAINTAINER Vincent Picavet, vincent.picavet@oslandia.com
@@ -52,12 +52,12 @@ RUN cd SFCGAL && cmake . && make -j3 && make install
 RUN rm -Rf SFCGAL
 
 # Download and compile PostGIS
-RUN wget http://download.osgeo.org/postgis/source/postgis-2.1.8.tar.gz
-RUN tar -xzf postgis-2.1.8.tar.gz
-RUN cd postgis-2.1.8 && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config
-RUN cd postgis-2.1.8 && make -j3 && make install
+RUN wget http://download.osgeo.org/postgis/source/postgis-2.2.0.tar.gz
+RUN tar -xzf postgis-2.2.0.tar.gz
+RUN cd postgis-2.2.0 && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config
+RUN cd postgis-2.2.0 && make && make install
 # cleanup
-RUN rm -Rf postgis-2.1.8.tar.gz postgis-2.1.8
+RUN rm -Rf postgis-2.2.0.tar.gz postgis-2.2.0
 
 # Download and compile pgrouting
 RUN git clone https://github.com/pgRouting/pgrouting.git &&\

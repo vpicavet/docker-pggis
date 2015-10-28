@@ -1,6 +1,9 @@
 NEWS items
 ==========
 
+28/10/15 - Release 1.7
+* Upgrade PostGIS to 2.2
+
 30/07/15 - Release 1.6
 * Upgrade Postgresql to 9.5
 * Upgrade PostGIS
