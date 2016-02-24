@@ -33,7 +33,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main 9.5" > /
 # packages needed for compilation
 RUN apt-get update
 
-RUN apt-get install -y autoconf build-essential cmake docbook-mathml docbook-xsl libboost-dev libboost-thread-dev libboost-filesystem-dev libboost-system-dev libboost-iostreams-dev libboost-program-options-dev libboost-timer-dev libcunit1-dev libgdal-dev libgeos++-dev libgeotiff-dev libgmp-dev libjson0-dev libjson-c-dev liblas-dev libmpfr-dev libopenscenegraph-dev libpq-dev libproj-dev libxml2-dev postgresql-server-dev-9.5 xsltproc git build-essential wget 
+RUN apt-get install -y autoconf build-essential bison cmake docbook-mathml docbook-xsl libboost-dev libboost-thread-dev libboost-filesystem-dev libboost-system-dev libboost-iostreams-dev libboost-program-options-dev libboost-timer-dev libcunit1-dev libgdal-dev libgeos++-dev libgeotiff-dev libgmp-dev libjson0-dev libjson-c-dev liblas-dev libmpfr-dev libopenscenegraph-dev libpq-dev libproj-dev libxml2-dev postgresql-server-dev-9.5 xsltproc git build-essential wget 
 
 # application packages
 RUN apt-get install -y postgresql-9.5
@@ -60,12 +60,12 @@ RUN wget http://download.osgeo.org/geos/geos-3.5.0.tar.bz2 &&\
     cd .. && rm -Rf geos-3.5.0 geos-3.5.0.tar.bz2
 
 # Download and compile PostGIS
-RUN wget http://download.osgeo.org/postgis/source/postgis-2.2.0.tar.gz
-RUN tar -xzf postgis-2.2.0.tar.gz
-RUN cd postgis-2.2.0 && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config --with-geos=/usr/local/bin/geos-config
-RUN cd postgis-2.2.0 && make && make install
+RUN git clone https://github.com/postgis/postgis.git &&\
+	cd postgis &&\
+	./autogen.sh && ./configure --with-sfcgal=/usr/local/bin/sfcgal-config --with-geos=/usr/local/bin/geos-config &&\
+	make && make install
 # cleanup
-RUN rm -Rf postgis-2.2.0.tar.gz postgis-2.2.0
+RUN rm -Rf postgis
 
 # Download and compile pgrouting
 RUN git clone https://github.com/pgRouting/pgrouting.git &&\
