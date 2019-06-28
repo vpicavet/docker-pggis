@@ -5,10 +5,10 @@ Presentation
 ------------
 
 This Docker image is a container with all latest PostgreSQL extensions needed to do serious GIS work.
-It is based on Ubuntu 14.04 and features :
+It is based on Ubuntu 18.04 and features :
 
-* PostgreSQL 9.5 (from PGDG packages)
-* PostGIS 2.2 (compiled from release sources) with SFCGAL support (git master) and GEOS 3.5
+* PostgreSQL 11 (from PGDG packages)
+* PostGIS 2.5.2 (compiled from release sources) with SFCGAL support (git master)
 * PgRouting (git master)
 * PostgreSQL PointCloud extension (git master)
 * OGR Foreign data wrapper (Git master)
@@ -22,7 +22,7 @@ This Docker is aimed at tests and development. Do not use it for production purp
 Just get me started !
 ---------------------
 
-Make sure you have docker installed. On Ubuntu 14.04, Docker is named *docker.io*, replace the *docker* by *docker.io* in the following if needed. It is advised to use the latest available Docker version from official packages. See : https://blog.docker.com/2015/07/new-apt-and-yum-repos/
+Make sure you have docker installed. It is advised to use the latest available Docker version from official packages. See : https://blog.docker.com/2015/07/new-apt-and-yum-repos/
 
 If you just want to run a container with this image, you do not need this repository as the image is available on docker hub as a Trusted Build.
 Just run the container and it will download the image if you do not already have it locally :
@@ -104,7 +104,7 @@ Known problems
 
 When using Docker with AUFS, you can hit bug #783, and PostgreSQL server cannot be started due to permission problems. You will see dots appearing on the screen forever. There are at least three alternatives to workaround this bug :
 
-* Wait until the AUFS fix is released and taken into account in Docker ( not released yet as of feb. 2015 )
+* Wait until the AUFS fix is released and taken into account in Docker ( should be fixed as of kernel 4.4.6 )
 
 * Remove containers and images related to this project and rebuild the image from scratch :
 
@@ -129,7 +129,7 @@ References
 ==========
 
 More complete documentation on Oslandia's blog post : 
-http://www.oslandia.com/full-spatial-database-power-in-2-lines-en.html
+https://oslandia.com/2014/05/20/full-spatial-database-power-in-2-lines/
 
 Dockerfile reference :
 http://docs.docker.io/reference/builder/
