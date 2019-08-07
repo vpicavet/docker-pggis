@@ -45,6 +45,8 @@ RUN wget https://github.com/CGAL/cgal/releases/download/releases%2FCGAL-4.13.1/C
     mkdir build && cd build &&\
     cmake .. &&\
     make -j3 && make install
+# cleanup
+RUN rm -Rf CGAL-4.13.1.tar.xz CGAL-4.13.1
 
 # download and compile SFCGAL
 RUN git clone https://github.com/Oslandia/SFCGAL.git
