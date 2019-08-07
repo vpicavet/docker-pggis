@@ -1,6 +1,14 @@
 NEWS items
 ==========
 
+07/08/19 - Release 1.8
+* Upgrade to Phusion 0.11 ( Ubuntu Bionic )
+* Upgrade PDAL to 1.9.1
+* Upgrade PostgreSQL to 11
+* Upgrade PostGIS to 2.5.2
+* Upgrade PGRouting to master
+* Upgrade PgPointCloud to master
+
 28/10/15 - Release 1.7
 * Upgrade PostGIS to 2.2
 * Upgrade GEOS from source to 3.5
